@@ -1,5 +1,5 @@
 import pandas as pd
-from utils.cell_cleaners import stage_transform, parse_year
+from utils.cell_cleaners import stage_transform, parse_year, parse_city, parse_district, clean_address
 
 # Загружаем данные
 aprtmnts_data = pd.read_csv('apartments.csv')
@@ -23,6 +23,9 @@ aprtmnts_data['Дата сдачи'] = aprtmnts_data['Дата сдачи'].appl
 aprtmnts_data['Дата сдачи'] = aprtmnts_data['Дата сдачи'].apply(parse_year)
 
 # Работаем со столбцом адреса
+aprtmnts_data['Город'] = aprtmnts_data['Адрес'].apply(parse_city)
+aprtmnts_data['Район'] = aprtmnts_data['Адрес'].apply(parse_district)
+aprtmnts_data['Адрес кр'] = aprtmnts_data['Адрес'].apply(clean_address)
 
 # Получаем координаты по адресу
 
