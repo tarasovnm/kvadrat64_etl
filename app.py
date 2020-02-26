@@ -1,3 +1,4 @@
+import googlemaps
 import pandas as pd
 from utils.cell_cleaners import stage_transform, parse_year, parse_city, parse_district, clean_address
 
@@ -28,6 +29,20 @@ aprtmnts_data['Район'] = aprtmnts_data['Адрес'].apply(parse_district)
 aprtmnts_data['Адрес кр'] = aprtmnts_data['Адрес'].apply(clean_address)
 
 # Получаем координаты по адресу
+aprtmnts_data['Адрес полный'] = aprtmnts_data['Город'] + ', ' + aprtmnts_data['Адрес кр']
+
+gmaps = googlemaps.Client(key='AIzaSyCK941SxNXqoIJn74Wq21pq84ZgBaJrh5c')
+
+def get_coords(addr):
+    # Geocoding an address
+    geocode_result = gmaps.geocode(addr)
+    if len(geocode_result) > 0:
+        coord_str = str(geocode_result[0]['geometry']['location']['lat']) + ' ' + str(geocode_result[0]['geometry']['location']['lng'])
+    else: coord_str = ''
+    return coord_str
+
+
+aprtmnts_data['Координаты'] = aprtmnts_data['Адрес полный'].apply(get_coords)
 
 # Сохраняем обработанные данные в файл
 aprtmnts_data.to_csv('apartments_prep.csv', index=None, header=True)
