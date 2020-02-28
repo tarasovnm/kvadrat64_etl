@@ -31,7 +31,7 @@ aprtmnts_data['Адрес кр'] = aprtmnts_data['Адрес'].apply(clean_addre
 # Получаем координаты по адресу
 aprtmnts_data['Адрес полный'] = aprtmnts_data['Город'] + ', ' + aprtmnts_data['Адрес кр']
 
-gmaps = googlemaps.Client(key='AIzaSyCK941SxNXqoIJn74Wq21pq84ZgBaJrh5c')
+gmaps = googlemaps.Client(key='***')
 
 def get_coords(addr):
     # Geocoding an address
